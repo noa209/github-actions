@@ -5,7 +5,6 @@ on:
     branches: [ "main" ]
 
 jobs:
-  # שלב 1: האקשן האמיתי (CI)
   # זה ירוץ על השרתים של גיטהאב ויבדוק שהקוד שלך תקין
   build-code:
     runs-on: ubuntu-latest
@@ -26,8 +25,6 @@ jobs:
       - name: Build Project (TypeScript)
         run: npm run build
 
-  # שלב 2: סימולציה של פריסה (CD)
-  # מכיוון שאין לך שרת, נעשה כאילו אנחנו פורסים
   deploy-simulation:
     needs: build-code  # מחכה שהבנייה תסתיים
     runs-on: ubuntu-latest
@@ -38,4 +35,4 @@ jobs:
           echo "Build was successful!"
           echo "Simulating deployment to server..."
           sleep 2
-          echo "Deployment finished successfully! (Just kidding, no server yet)"
+          echo "Deployment finished successfully!"
