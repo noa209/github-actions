@@ -1,0 +1,41 @@
+name: Test CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  # שלב 1: האקשן האמיתי (CI)
+  # זה ירוץ על השרתים של גיטהאב ויבדוק שהקוד שלך תקין
+  build-code:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Project (TypeScript)
+        run: npm run build
+
+  # שלב 2: סימולציה של פריסה (CD)
+  # מכיוון שאין לך שרת, נעשה כאילו אנחנו פורסים
+  deploy-simulation:
+    needs: build-code  # מחכה שהבנייה תסתיים
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Fake Deploy
+        run: |
+          echo "Build was successful!"
+          echo "Simulating deployment to server..."
+          sleep 2
+          echo "Deployment finished successfully! (Just kidding, no server yet)"
